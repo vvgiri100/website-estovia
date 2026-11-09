@@ -73,5 +73,44 @@ estovia_flask/
 -   cd /var/www/nestro
 -   git clone git@github.com:vvgiri100/website-ESTOVIA.git
 -   python3 -m venv venv
--   source venv/bin/activate
--   pip install -r requirements.txt
+
+## Troubleshooting
+-    curl -I http://localhost
+      HTTP/1.1 200 OK
+      Server: nginx
+-    curl -I http://externalIP
+      HTTP/1.1 200 OK
+      Server: nginx
+-    sudo nano /etc/nginx/sites-available/estovia
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+-    cat /etc/nginx/sites-available/estovia
+-    sudo nano /etc/systemd/system/estovia.service
+[Unit]
+Description=ESTOVIA Flask Website
+After=network.target
+
+[Service]
+User=valapatlav
+WorkingDirectory=/var/www/estovia/website-ESTOVIA
+Environment="PATH=/var/www/estovia/website-ESTOVIA/venv/bin"
+ExecStart=/var/www/estovia/website-ESTOVIA/venv/bin/gunicorn --workers 1 --bind 127.0.0.1:5000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+-    cat /etc/systemd/system/estovia.service
+-    sudo systemctl daemon-reload
+-    sudo systemctl enable --now estovia
+-    sudo systemctl stop estovia
+  
