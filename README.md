@@ -59,7 +59,7 @@ estovia_flask/
 
 
 ## To Run
--   python3 -m venv venv
+-   python3 -m venv venv (to create local env where ever running)
     source venv/bin/activate
 -   pip install -r requirements.txt
 -   python3 app.py
