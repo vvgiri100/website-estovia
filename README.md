@@ -68,3 +68,10 @@ estovia_flask/
 ## To Stop and Exit
 -   CTRL+C
 -   deactivate
+
+## On Server
+-   cd /var/www/nestro
+-   git clone git@github.com:vvgiri100/website-ESTOVIA.git
+-   python3 -m venv venv
+-   source venv/bin/activate
+-   pip install -r requirements.txt
